@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:id="@+id/lnnlay">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/tieptuc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="left"
+        android:background="@drawable/custom_bottom"
+        app:backgroundTint="@null"
+        android:layout_margin="5dp"
+        android:text="Tiếp tục mua" />
+    <Button
+        android:id="@+id/btnXacNhanThanhToan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+        android:background="@drawable/custom_bottom"
+        app:backgroundTint="@null"
+        android:text="Xác nhận thanh toán" />
+</LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông tin khách hàng"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_gravity="center"/>
+
+
+    <EditText
+        android:id="@+id/edt_nameKH"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"/>
+    <EditText
+        android:id="@+id/edt_phoneKH"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone "/>
+    <EditText
+        android:id="@+id/edt_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address "/>
+    <EditText
+        android:id="@+id/edt_khuyenmai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="khuyen mai "/>
+
+    <TextView
+        android:id="@+id/tv_tongTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tổng số tiền :"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="right"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_thanhtoan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+</LinearLayout>
