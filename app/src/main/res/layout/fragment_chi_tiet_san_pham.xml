@@ -18,7 +18,7 @@
         android:id="@+id/img_chiTiet"
         android:layout_width="wrap_content"
         android:layout_height="450dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/sanpham3" />
 
     <LinearLayout

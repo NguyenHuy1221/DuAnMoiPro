@@ -42,7 +42,8 @@ public class Fragment_doanh_thu extends Fragment {
         edtSearch = view.findViewById(R.id.edtSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
         hoaDonChiTietDAO = new ChiTietHoaDonDao(getContext());
-        double doanhThu = hoaDonChiTietDAO.getDoanhThuTheoNgay();
+
+        double doanhThu = hoaDonChiTietDAO.tinhDoanhThuHomNay();
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###.##");
         String doanhThuFormatted = decimalFormat.format(doanhThu);
         tvNgay.setText("Hôm nay: " + doanhThuFormatted);

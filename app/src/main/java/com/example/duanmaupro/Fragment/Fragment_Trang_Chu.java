@@ -118,9 +118,9 @@ public class Fragment_Trang_Chu extends Fragment implements ClickItem {
     // danh sách slider
     public List<slider> getListSlider() {
         List<slider> list = new ArrayList<>();
-        list.add(new slider(R.drawable.sanpham3));
-        list.add(new slider(R.drawable.sanpham3));
-        list.add(new slider(R.drawable.sanpham3));
+        list.add(new slider(R.drawable.slider_3));
+        list.add(new slider(R.drawable.slider_2));
+        list.add(new slider(R.drawable.slider_1));
         return list;
     }
 

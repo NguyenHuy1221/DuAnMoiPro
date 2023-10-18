@@ -283,9 +283,6 @@ public class ChiTietHoaDonDao {
 
 
 
-
-
-
     public List<String> layThongTinHoaDon() {
         List<String> thongTinHoaDonList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();

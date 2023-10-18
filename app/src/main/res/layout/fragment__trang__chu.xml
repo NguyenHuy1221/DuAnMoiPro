@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:queryHint="Tìm kiếm"
-            android:background="@drawable/duong_vien"/>
+            android:background="@drawable/custom_khung"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
