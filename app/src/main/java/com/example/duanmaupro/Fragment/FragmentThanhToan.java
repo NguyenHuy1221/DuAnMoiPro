@@ -1,5 +1,11 @@
 package com.example.duanmaupro.Fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,12 +29,15 @@ import com.example.duanmaupro.DAO.GioHangDao;
 import com.example.duanmaupro.DAO.HoaDonDao;
 import com.example.duanmaupro.DAO.KhachHangDao;
 import com.example.duanmaupro.R;
+import com.example.duanmaupro.ThanhToanThanhCong;
 import com.example.duanmaupro.TotalPriceUpdateListener;
 import com.example.duanmaupro.model.ChiTietHoaDon;
 import com.example.duanmaupro.model.GioHang;
 import com.example.duanmaupro.model.HoaDon;
 import com.example.duanmaupro.model.KhachHang;
 import com.example.duanmaupro.model.sanPham;
+import com.example.duanmaupro.service.myAplication;
+import com.example.duanmaupro.service.myService;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -74,7 +86,7 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
         ArrayList<GioHang> listGH = gioHangDao.getDS();
         updateTotalPrice();
 
-        gioHangAdapter = new GioHangAdapter(getContext(),listGH,gioHangDao);
+        gioHangAdapter = new GioHangAdapter(getContext(), listGH, gioHangDao);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerViewMua.setLayoutManager(gridLayoutManager);
         recyclerViewMua.setAdapter(gioHangAdapter);
@@ -107,46 +119,46 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
                 String sodienthoai = "\\d{1,10}";
                 String dc = "\\w{1,}";
 
-                if(name.isEmpty()&&phone.isEmpty()&&addres.isEmpty()) {
+                if (name.isEmpty() && phone.isEmpty() && addres.isEmpty()) {
                     Toast.makeText(getContext(), "Vui Lòng Nhập Đủ Dữ Liệu", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // kiểm tra tên
-                if (name.equals("")){
+                if (name.equals("")) {
                     Toast.makeText(getContext(), "Chưa nhập tên khách hàng", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (name.matches(regexTen)){
+                } else if (name.matches(regexTen)) {
 
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Tên Không Hợp Lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //kiểm  tra sdt
-                if (phone.equals("")){
+                if (phone.equals("")) {
                     Toast.makeText(getContext(), "Chưa nhập số điện thoại", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (phone.matches(sodienthoai)) {
 
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Nhập số điện thoại không hợp lệ ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // kiểm tra dc
-                if (addres.equals("")){
+                if (addres.equals("")) {
                     Toast.makeText(getContext(), "Chưa nhập địa chỉ", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (addres.matches(dc)){
+                } else if (addres.matches(dc)) {
 
-                }else {
+                } else {
                     Toast.makeText(getContext(), "địa chỉ không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                KhachHang khachHang = new KhachHang(name,phone,addres);
+                KhachHang khachHang = new KhachHang(name, phone, addres);
                 long khachHangId = khachHangDao.insertKhachHang(khachHang);
 
 
-                if (khachHangId != -1){
+                if (khachHangId != -1) {
                     Toast.makeText(getContext(), "Thêm khách hàng thành công", Toast.LENGTH_SHORT).show();
                     HoaDon hoaDon = new HoaDon();
                     hoaDon.setIdkhachhang((int) khachHangId);
@@ -161,11 +173,11 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
 
                     long ktHD = hoaDonDao.themHoaDon(hoaDon);
                     int totalPrice = 0;
-                    if (ktHD != -1){
+                    if (ktHD != -1) {
                         Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
                         List<GioHang> gioHangList = gioHangDao.getDS();
                         hoaDon.setIdhoadon((int) ktHD);
-                        for(GioHang gioHang: gioHangList){
+                        for (GioHang gioHang : gioHangList) {
                             int idsp = gioHang.getMasp();
                             int giaSanPham = gioHang.getGiasp();
                             int soluong = gioHang.getSoluong();
@@ -182,27 +194,29 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
                             long themCTHD = chiTietHoaDonDao.themChiTietHoaDon(chiTietHoaDon);
                             if (themCTHD != -1) {
                                 Toast.makeText(getContext(), " mua sản phầm thành công", Toast.LENGTH_SHORT).show();
-                                chiTietHoaDonDao.updateSanPham(hoaDon.getIdhoadon(),hoaDon.getIdhoadon());
+                                chiTietHoaDonDao.updateSanPham(hoaDon.getIdhoadon(), hoaDon.getIdhoadon());
                             } else {
                                 Toast.makeText(getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
                             }
 
                         }
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), "Thêm hóa đơn thất bại", Toast.LENGTH_SHORT).show();
                     }
                     gioHangDao.xoaTatCaSanPham();
                     gioHangAdapter.clearData();
                     gioHangAdapter.notifyDataSetChanged();
 
-                    Fragment_Trang_Chu fragmentTrangChu = new Fragment_Trang_Chu();
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.layout_navigation, fragmentTrangChu);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+//                    Fragment_Trang_Chu fragmentTrangChu = new Fragment_Trang_Chu();
+//                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.layout_navigation, fragmentTrangChu);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+                    sendNotification();
+                    Intent intent = new Intent(getActivity(), ThanhToanThanhCong.class);
+                    startActivity(intent);
 
-
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Thêm khách hàng thất bại", Toast.LENGTH_SHORT).show();
                 }
 
@@ -211,7 +225,6 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
 
         return view;
     }
-
 
 
     private String updateTotalPrice() {
@@ -227,7 +240,7 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
         // Định dạng số tiền và hiển thị trong TextView
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         String formattedTotalPrice = formatter.format(totalPrice);
-        tongtien.setText("Tổng tiền : " +formattedTotalPrice+" đ");
+        tongtien.setText("Tổng tiền : " + formattedTotalPrice + " đ");
         return formattedTotalPrice;
     }
 
@@ -242,5 +255,49 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
         String formattedTotalPrice = formatter.format(newTotalPrice);
         tongtien.setText("Tổng tiền : " + formattedTotalPrice + " đ");
     }
+
+
+    private void sendNotification() {
+        // Được giả định là bạn đã có một tài nguyên hình ảnh với tên là "example_image"
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sanpham3);
+
+        if (bitmap != null) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), myAplication.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.sanpham3)
+                    .setContentTitle("CẢM ƠN BẠN ĐÃ QUAN TÂM VÀ ỦNG HỘ")
+                    .setContentText("THANK KIU FOR LISTENING")
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(bitmap)
+                            .bigLargeIcon(null)
+                    )
+                    .setLargeIcon(bitmap)
+                    .setColor(Color.RED)
+                    .setAutoCancel(true);
+
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getContext());
+
+            // Kiểm tra quyền gửi thông báo
+            if (notificationManagerCompat.areNotificationsEnabled()) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // Yêu cầu quyền gửi thông báo từ người dùng
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.POST_NOTIFICATIONS}, 7979);
+                } else {
+                    notificationManagerCompat.notify(getNotificationID(), builder.build());
+                }
+            } else {
+                // Yêu cầu quyền thông báo
+                // Hãy thực hiện yêu cầu quyền thông qua hộp thoại hoặc cài đặt ứng dụng
+            }
+        } else {
+            // Xử lý khi bitmap là null
+        }
+    }
+
+    private int getNotificationID() {
+        return (int) new Date().getTime();
+    }
+
+
 
 }
