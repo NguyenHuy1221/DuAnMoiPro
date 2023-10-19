@@ -1,9 +1,11 @@
 package com.example.duanmaupro.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class ChiTietHoaDonAdapter extends RecyclerView.Adapter<ChiTietHoaDonAdapter.ViewHolder> {
     private List<ChiTietHoaDon> chiTietHoaDonList;
-
+    private  Context context;
     public ChiTietHoaDonAdapter(List<ChiTietHoaDon> chiTietHoaDonList) {
         this.chiTietHoaDonList = chiTietHoaDonList;
     }
@@ -37,7 +39,9 @@ public class ChiTietHoaDonAdapter extends RecyclerView.Adapter<ChiTietHoaDonAdap
         holder.txtTenSanPham.setText("Tên sản phẩm : "+chiTietHoaDon.getSanPham().getTensp());
         holder.txtSoLuong.setText("Số lượng :" +chiTietHoaDon.getSoluong());
         holder.txtDonGia.setText("Đơn giá : "+chiTietHoaDon.getDongia());
-        holder.txtTongTien.setText("Tổng tiền : "+chiTietHoaDon.getSoluong() * chiTietHoaDon.getDongia());
+
+        holder.txtmkm.setText("Mã khuyến mãi là :" + chiTietHoaDon.getIdmkm());
+        holder.txtTongTien.setText("Tổng tiền : "+(chiTietHoaDon.getSoluong() * chiTietHoaDon.getDongia()));
 
     }
 
@@ -48,7 +52,7 @@ public class ChiTietHoaDonAdapter extends RecyclerView.Adapter<ChiTietHoaDonAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenKH,txtSDT,txtDC,txtNgay;
-        TextView txtTenSanPham, txtSoLuong, txtDonGia, txtTongTien;
+        TextView txtTenSanPham, txtSoLuong, txtDonGia, txtTongTien , txtmkm;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -60,6 +64,7 @@ public class ChiTietHoaDonAdapter extends RecyclerView.Adapter<ChiTietHoaDonAdap
             txtSoLuong = itemView.findViewById(R.id.txtSoLuong);
             txtDonGia = itemView.findViewById(R.id.txtDonGia);
             txtTongTien = itemView.findViewById(R.id.txtTongTien);
+            txtmkm = itemView.findViewById(R.id.txtmkm);
         }
     }
 }

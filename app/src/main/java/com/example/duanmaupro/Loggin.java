@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -65,25 +66,25 @@ public class Loggin extends AppCompatActivity {
                             startActivity(intent);
                             setContentView(R.layout.activity_navigation_drawer);
                             // ánh xạ
-                            mDrawerLayout = findViewById(R.id.drawerlayout);
-                            // Chuyển sang fragment trang chủ
-                            Fragment_Trang_Chu fragment = new Fragment_Trang_Chu();
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.layout_navigation,fragment)
-                                    .commit();
-
-                            mDrawerLayout.closeDrawer(GravityCompat.START);
+//                            mDrawerLayout = findViewById(R.id.drawerlayout);
+//                            // Chuyển sang fragment trang chủ
+//                            Fragment_Trang_Chu fragment = new Fragment_Trang_Chu();
+//                            getSupportFragmentManager()
+//                                    .beginTransaction()
+//                                    .replace(R.id.layout_navigation,fragment)
+//                                    .commit();
+//
+//                            mDrawerLayout.closeDrawer(GravityCompat.START);
                             // Thoát khỏi vòng lặp
 
                             break;
                         } else {
-                            // Nếu mật khẩu không khớp, hiển thị thông báo lỗi và thoát khỏi hàm
-//                            Toast.makeText(Loggin.this, "sai tài khoản hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
+//                             Nếu mật khẩu không khớp, hiển thị thông báo lỗi và thoát khỏi hàm
+                            Toast.makeText(Loggin.this, "sai tài khoản hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     } else {
-//                        Toast.makeText(Loggin.this, "sai tài khoản hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Loggin.this, "sai tài khoản hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
 
                     }
 

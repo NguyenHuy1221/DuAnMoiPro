@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.duanmaupro.Database.DbHelper;
 import com.example.duanmaupro.model.ChiTietHoaDon;
@@ -190,7 +191,7 @@ public class ChiTietHoaDonDao {
 
         String query = "SELECT KHACH_HANG.tenkhachhang, KHACH_HANG.sdt, KHACH_HANG.diachi, HOA_DON.ngay, " +
                 "GROUP_CONCAT(SAN_PHAM.tensp || ' SL ' || CTHD.soluong) AS danhSachSanPham, " +
-                "SUM(CTHD.soluong * SAN_PHAM.giasp) AS tongTien " +
+                "SUM(CTHD.soluong * SAN_PHAM.giasp) AS tongTien,HOA_DON.idmkm " +
                 "FROM HOA_DON " +
                 "INNER JOIN KHACH_HANG ON HOA_DON.idkhachhang = KHACH_HANG.idkhachhang " +
                 "INNER JOIN CTHD ON HOA_DON.idhoadon = CTHD.idhoadon " +
@@ -207,17 +208,33 @@ public class ChiTietHoaDonDao {
                 String ngay = cursor.getString(3);
                 String danhSachSanPhamString = cursor.getString(4);
                 double tongTien = cursor.getDouble(5);
-
+                int mkm = cursor.getInt(6);
                 // Xử lý chuỗi danh sách sản phẩm và tạo danh sách sản phẩm
                 List<String> danhSachSanPham = new ArrayList<>(Arrays.asList(danhSachSanPhamString.split(", ")));
+                int makhuyenmai = mkm;
+                int money = 0;
+                if (makhuyenmai ==0){
+                    money = 50000;
+                } else if (makhuyenmai == 1){
+                    money = 100000;
+                }else if (makhuyenmai == 2){
+                    money = 150000;
+                }else if (makhuyenmai == 3){
+                    money = 200000;
+                }else {
 
+
+
+                }
+                tongTien = tongTien-money;
                 // Tạo thông tin hóa đơn
                 String thongTinHoaDon = "Tên Khách Hàng: " + tenKhachHang +
                         "\nSố Điện Thoại: " + sdtKhachHang +
                         "\nĐịa Chỉ: " + diaChiKhachHang +
                         "\nNgày: " + ngay +
                         "\nDanh Sách Sản Phẩm: " + danhSachSanPham +
-                        "\nTổng Tiền: " + tongTien;
+                        "\nTổng Tiền: " + tongTien +
+                        "\nmã khuyến mãi: " + mkm;
 
                 thongTinHoaDonList.add(thongTinHoaDon);
             } while (cursor.moveToNext());
@@ -307,6 +324,7 @@ public class ChiTietHoaDonDao {
                 int soLuong = cursor.getInt(5);
                 int giaSanPham = cursor.getInt(6);
                 String tongTien = cursor.getString(7);
+
 
                 // Xử lý chuỗi danh sách sản phẩm và tạo danh sách sản phẩm
                 List<String> danhSachSanPham = new ArrayList<>(Arrays.asList(danhSachSanPhamString.split(",")));

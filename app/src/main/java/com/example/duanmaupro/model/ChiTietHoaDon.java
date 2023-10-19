@@ -7,19 +7,21 @@ public class ChiTietHoaDon {
     private KhachHang khachHang;
     private int soluong;
     private int dongia;
+    private int idmkm;
 
 
     public ChiTietHoaDon(){
 
     }
 
-    public ChiTietHoaDon(int idcthd, sanPham sanPham, HoaDon hoaDon, KhachHang khachHang, int soluong, int dongia) {
+    public ChiTietHoaDon(int idcthd, sanPham sanPham, HoaDon hoaDon, KhachHang khachHang, int soluong, int dongia, int idmkm) {
         this.idcthd = idcthd;
         this.sanPham = sanPham;
         this.hoaDon = hoaDon;
         this.khachHang = khachHang;
         this.soluong = soluong;
         this.dongia = dongia;
+        this.idmkm = idmkm;
     }
 
     public int getIdcthd() {
@@ -68,5 +70,13 @@ public class ChiTietHoaDon {
 
     public void setDongia(int dongia) {
         this.dongia = dongia;
+    }
+
+    public int getIdmkm() {
+        return idmkm;
+    }
+
+    public void setIdmkm(int idmkm) {
+        this.idmkm = idmkm;
     }
 }

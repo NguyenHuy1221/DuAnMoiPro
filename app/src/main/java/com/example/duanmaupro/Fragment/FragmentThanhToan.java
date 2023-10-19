@@ -169,7 +169,16 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
                     hoaDon.setNgay(ngay);
 
                     hoaDon.setTongtien(updateTotalPrice());
-                    hoaDon.setIdmkm(mkm);
+                    int fixloimkm=5;
+                    if (mkm == 0 || mkm == 1 || mkm == 2 || mkm == 3 || mkm == 4){
+                        fixloimkm = mkm;
+                    } else if (makhuyenmai.getText().toString() == null){
+                        fixloimkm = 5;
+                    } else {
+                        Toast.makeText(getContext(), "Mã khuyến mãi không tồn tại", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    hoaDon.setIdmkm(fixloimkm);
 
                     long ktHD = hoaDonDao.themHoaDon(hoaDon);
                     int totalPrice = 0;
