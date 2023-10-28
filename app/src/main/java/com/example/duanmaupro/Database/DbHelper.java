@@ -65,7 +65,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         String khuyenmai = "CREATE TABLE KHUYEN_MAI(idmkm INTEGER PRIMARY KEY AUTOINCREMENT,tenkm TEXT, tienkhuyenmai INTEGER)";
         db.execSQL(khuyenmai);
-        db.execSQL("INSERT INTO KHUYEN_MAI VALUES (1,'50km',50000),(2,'100k',100000),(3,'150k',150000),(4,'200k',200000),(5,'200k',0)");
+        db.execSQL("INSERT INTO KHUYEN_MAI VALUES (1,'50k',50000),(2,'100k',100000),(3,'150k',150000),(4,'200k',200000),(5,'Không có',0)");
 
     }
 

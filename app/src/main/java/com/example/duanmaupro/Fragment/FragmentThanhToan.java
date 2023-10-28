@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cloudinary.utils.StringUtils;
 import com.example.duanmaupro.Adapter.GioHangAdapter;
 import com.example.duanmaupro.DAO.ChiTietHoaDonDao;
 import com.example.duanmaupro.DAO.GioHangDao;
@@ -37,7 +38,8 @@ import com.example.duanmaupro.model.HoaDon;
 import com.example.duanmaupro.model.KhachHang;
 import com.example.duanmaupro.model.sanPham;
 import com.example.duanmaupro.service.myAplication;
-import com.example.duanmaupro.service.myService;
+
+
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -112,7 +114,18 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
                 String name = nameKH.getText().toString();
                 String phone = phoneKH.getText().toString();
                 String addres = address.getText().toString();
-                int mkm = Integer.parseInt(makhuyenmai.getText().toString());
+                String makhuyenmaistring  = makhuyenmai.getText().toString();
+                int mkm=5;
+                // Sử dụng phương thức parseInt để chuyển đổi chuỗi thành số nguyên
+                try {
+                    // Nếu chuỗi là số, chuyển đổi thành số nguyên
+                    mkm = Integer.parseInt (makhuyenmai.getText().toString());
+                } catch (NumberFormatException e) {
+                    // Nếu chuỗi không phải là số, bắt và xử lý ngoại lệ
+                    System.out.println ("Chuỗi không phải là số");
+                    mkm = 5; // hoặc bất kỳ giá trị nào bạn muốn
+                }
+
 
 
                 String regexTen = "[^\\d]{1,}";
@@ -170,9 +183,9 @@ public class FragmentThanhToan extends Fragment implements TotalPriceUpdateListe
 
                     hoaDon.setTongtien(updateTotalPrice());
                     int fixloimkm=5;
-                    if (mkm == 0 || mkm == 1 || mkm == 2 || mkm == 3 || mkm == 4){
+                    if (mkm == 1 || mkm == 2 || mkm == 3 || mkm == 4){
                         fixloimkm = mkm;
-                    } else if (makhuyenmai.getText().toString() == null){
+                    } else if (makhuyenmai.getText().toString() == null || mkm ==5){
                         fixloimkm = 5;
                     } else {
                         Toast.makeText(getContext(), "Mã khuyến mãi không tồn tại", Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@ public class ThanhToanThanhCong extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(ThanhToanThanhCong.this, Fragment_Trang_Chu.class);
+                Intent intent = new Intent(ThanhToanThanhCong.this, Navigation_Drawer.class);
                 startActivity(intent);
                 finish();
             }

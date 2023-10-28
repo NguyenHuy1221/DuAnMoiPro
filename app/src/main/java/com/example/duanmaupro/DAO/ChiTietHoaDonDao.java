@@ -9,10 +9,12 @@ import android.widget.Toast;
 
 import com.example.duanmaupro.Database.DbHelper;
 import com.example.duanmaupro.model.ChiTietHoaDon;
+import com.example.duanmaupro.model.HoaDon;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -185,18 +187,22 @@ public class ChiTietHoaDonDao {
 //    }
 
 
+
+
     public List<String> layDanhSachHoaDonChiTiet() {
         List<String> thongTinHoaDonList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
-        String query = "SELECT KHACH_HANG.tenkhachhang, KHACH_HANG.sdt, KHACH_HANG.diachi, HOA_DON.ngay, " +
+        String query = "SELECT KHACH_HANG.tenkhachhang, KHACH_HANG.sdt, KHACH_HANG.diachi, HOA_DON.ngay," +
                 "GROUP_CONCAT(SAN_PHAM.tensp || ' SL ' || CTHD.soluong) AS danhSachSanPham, " +
-                "SUM(CTHD.soluong * SAN_PHAM.giasp) AS tongTien,HOA_DON.idmkm " +
+                "SUM(CTHD.soluong * SAN_PHAM.giasp) AS tongTien,HOA_DON.idmkm,KHUYEN_MAI.tenkm  " +
                 "FROM HOA_DON " +
                 "INNER JOIN KHACH_HANG ON HOA_DON.idkhachhang = KHACH_HANG.idkhachhang " +
                 "INNER JOIN CTHD ON HOA_DON.idhoadon = CTHD.idhoadon " +
                 "INNER JOIN SAN_PHAM ON CTHD.masp = SAN_PHAM.masp " +
-                "GROUP BY HOA_DON.idhoadon";
+                "LEFT JOIN KHUYEN_MAI ON HOA_DON.idmkm = KHUYEN_MAI.idmkm " +
+                "GROUP BY HOA_DON.idhoadon " +
+                "ORDER BY HOA_DON.ngay DESC";
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
@@ -209,22 +215,22 @@ public class ChiTietHoaDonDao {
                 String danhSachSanPhamString = cursor.getString(4);
                 double tongTien = cursor.getDouble(5);
                 int mkm = cursor.getInt(6);
+                String tenkhuyenmai = cursor.getString(7);
                 // Xử lý chuỗi danh sách sản phẩm và tạo danh sách sản phẩm
                 List<String> danhSachSanPham = new ArrayList<>(Arrays.asList(danhSachSanPhamString.split(", ")));
                 int makhuyenmai = mkm;
                 int money = 0;
-                if (makhuyenmai ==0){
+                if (makhuyenmai ==1){
                     money = 50000;
-                } else if (makhuyenmai == 1){
+                } else if (makhuyenmai == 2){
                     money = 100000;
-                }else if (makhuyenmai == 2){
-                    money = 150000;
                 }else if (makhuyenmai == 3){
+                    money = 150000;
+                }else if (makhuyenmai == 4){
                     money = 200000;
                 }else {
-
-
-
+                    money =0;
+                    tenkhuyenmai = "không có";
                 }
                 tongTien = tongTien-money;
                 // Tạo thông tin hóa đơn
@@ -234,7 +240,8 @@ public class ChiTietHoaDonDao {
                         "\nNgày: " + ngay +
                         "\nDanh Sách Sản Phẩm: " + danhSachSanPham +
                         "\nTổng Tiền: " + tongTien +
-                        "\nmã khuyến mãi: " + mkm;
+                        "\nkhuyến mãi: " + tenkhuyenmai +
+                        "\nsố tiền khuyến mãi: " + money;
 
                 thongTinHoaDonList.add(thongTinHoaDon);
             } while (cursor.moveToNext());

@@ -77,7 +77,7 @@ public class Loggin extends AppCompatActivity {
 //                            mDrawerLayout.closeDrawer(GravityCompat.START);
                             // Thoát khỏi vòng lặp
 
-                            break;
+                            finish();
                         } else {
 //                             Nếu mật khẩu không khớp, hiển thị thông báo lỗi và thoát khỏi hàm
                             Toast.makeText(Loggin.this, "sai tài khoản hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
