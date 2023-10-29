@@ -19,6 +19,7 @@ import com.example.duanmaupro.DAO.GioHangDao;
 import com.example.duanmaupro.R;
 import com.example.duanmaupro.TotalPriceUpdateListener;
 import com.example.duanmaupro.model.GioHang;
+import com.example.duanmaupro.model.taiKhoan;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -94,13 +95,68 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
         String formattedGia = formatter.format(gioHang.getGiasp());
         holder.txtGiaSanPham.setText(formattedGia + " đ");
 
-        holder.txtSoLuongSanPham.setText("Số lượng: " + gioHang.getSoluong());
+        holder.txtSoLuongSanPham.setText(""+gioHang.getSoluong());
         holder.txtSize.setText("Size: " + gioHang.getSize());
         Picasso.get().load(gioHang.getImagesp()).into(holder.imgSanPham);
 
         int tongTien = gioHang.getGiasp() * gioHang.getSoluong();
         String formattedTongTien = formatter.format(tongTien);
         holder.txtTongTien.setText("Tổng tiền: " + formattedTongTien + " đ");
+
+        holder.apart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy đối tượng TextView từ holder
+                TextView txtSoLuongSanPham = holder.txtSoLuongSanPham;
+                // Lấy giá trị số nguyên từ TextView
+                int soluongsanpham = Integer.parseInt(txtSoLuongSanPham.getText().toString()) -1;
+                if (soluongsanpham >=1){
+
+
+                    holder.txtSoLuongSanPham.setText(String.valueOf(soluongsanpham));
+
+                    GioHang gioHang1 = new GioHang(gioHang.getMasp(), null,null,soluongsanpham,null,null);
+                    boolean check = gioHangDao.updateGH(gioHang1);
+
+                    if (check) {
+
+                        ArrayList<GioHang> capnhat = gioHangDao.getDS();
+                        updatelist(capnhat);
+                    } else {
+
+                    }
+                } else {
+                    Toast.makeText(context, "số lượng sản phẩm lớn hơn 1 mới được phép xóa", Toast.LENGTH_SHORT).show();
+                     soluongsanpham = soluongsanpham + 1;
+                }
+            }
+        });
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView txtSoLuongSanPham = holder.txtSoLuongSanPham;
+                // Lấy giá trị số nguyên từ TextView
+                int soluongsanpham = Integer.parseInt(txtSoLuongSanPham.getText().toString()) + 1;
+                if (gioHang.getSoluong() <100){
+
+
+                    holder.txtSoLuongSanPham.setText(String.valueOf(soluongsanpham));
+                    GioHang gioHang1 = new GioHang(gioHang.getMasp(), null,null,soluongsanpham,null,null);
+                    boolean check = gioHangDao.updateGH(gioHang1);
+
+                    if (check) {
+
+                        ArrayList<GioHang> capnhat = gioHangDao.getDS();
+                        updatelist(capnhat);
+                    } else {
+
+                    }
+                } else {
+                    Toast.makeText(context, "số lượng sản phẩm lớn hơn 1 mới được phép xóa", Toast.LENGTH_SHORT).show();
+                    soluongsanpham = gioHang.getSoluong() - 1;
+                }
+            }
+        });
 
 
 
@@ -126,7 +182,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTenSanPham, txtGiaSanPham, txtSoLuongSanPham, txtTongTien, txtXoa,txtSize;
+        TextView txtTenSanPham, txtGiaSanPham, txtSoLuongSanPham, txtTongTien, txtXoa,txtSize,apart,add;
         ImageView imgSanPham ;
 
         public ViewHolder(@NonNull View itemView) {
@@ -138,6 +194,8 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
             txtSize = itemView.findViewById(R.id.txtSize);
             txtXoa = itemView.findViewById(R.id.tx_xoa);
             imgSanPham = itemView.findViewById(R.id.imgSanPham);
+            apart = itemView.findViewById(R.id.apart);
+            add = itemView.findViewById(R.id.add);
         }
     }
 

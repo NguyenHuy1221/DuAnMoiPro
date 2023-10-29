@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.duanmaupro.Database.DbHelper;
 import com.example.duanmaupro.model.GioHang;
+import com.example.duanmaupro.model.taiKhoan;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,19 @@ public class GioHangDao {
         return true;
     }
 
+    public boolean updateGH(GioHang GioHang) {
 
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("soluong",GioHang.getSoluong());
+
+
+        long check = sqLiteDatabase.update("SPDC",contentValues,"masp=?",new String[]{String.valueOf(GioHang.getMasp())});
+        if (check <=0 ){
+            return false;
+        }
+        return true;
+    }
 
 
 

@@ -1,14 +1,15 @@
 package com.example.duanmaupro.model;
 
 public class GioHang {
-    private int masp;
+    private Integer masp;
     private String tensp;
-    private int giasp;
+    private Integer giasp;
     private int soluong;
     private String imagesp;
     private String size;
 
-    public GioHang(int masp, String tensp, int giasp, int soluong, String imagesp, String size) {
+
+    public GioHang(Integer masp, String tensp, Integer giasp, int soluong, String imagesp, String size) {
         this.masp = masp;
         this.tensp = tensp;
         this.giasp = giasp;
@@ -16,16 +17,10 @@ public class GioHang {
         this.imagesp = imagesp;
         this.size = size;
     }
+    public GioHang() {
 
-    public GioHang(String tensp, int giasp, int soluong, String imagesp, String size) {
-        this.tensp = tensp;
-        this.giasp = giasp;
-        this.soluong = soluong;
-        this.imagesp = imagesp;
-        this.size = size;
     }
-
-    public int getMasp() {
+    public Integer getMasp() {
         return masp;
     }
 
@@ -41,7 +36,7 @@ public class GioHang {
         this.tensp = tensp;
     }
 
-    public int getGiasp() {
+    public Integer getGiasp() {
         return giasp;
     }
 
